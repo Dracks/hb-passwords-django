@@ -20,6 +20,7 @@ from django.contrib.auth.models import User
 from rest_framework import routers, serializers, viewsets
 
 from credentials.views import FolderViewSet
+from credentials.views import CredentialsViewSet
 
 # Serializers define the API representation.
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -36,11 +37,13 @@ class UserViewSet(viewsets.ModelViewSet):
 router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
 router.register(r'folders', FolderViewSet)
-router.register(r'credentials', FolderViewSet)
+router.register(r'credentials', CredentialsViewSet)
+
 
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    url(r'credentials/', include(router.urls))
+    url(r'api/', include(router.urls))
+
 ]
