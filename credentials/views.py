@@ -16,3 +16,14 @@ class FolderViewSet(viewsets.ModelViewSet):
 class CredentialsViewSet(viewsets.ModelViewSet):
     queryset = Credentials.objects.all()
     serializer_class = CredentialsSerializer
+
+    def list(self, request, *args, **kwargs):
+        self.queryset = self.get_list_queryset()
+        return viewsets.ModelViewSet.list(self, request, args, kwargs)
+
+    def get_list_queryset(self):
+        credentials = Credentials.objects.all()
+        folder = self.request.query_params.get('folder', None)
+        if folder is not None:
+            credentials = credentials.filter(folder=folder)
+        return credentials
